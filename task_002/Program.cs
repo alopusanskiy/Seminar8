@@ -1,4 +1,12 @@
-﻿int[,] FillMatrix(int row, int col, int leftRange, int rightRange)
+﻿// Задача 56: Задайте прямоугольный двумерный массив. Напишите программу, которая будет находить строку с наименьшей суммой элементов.
+// Например, задан массив:
+// 1 4 7 2
+// 5 9 2 3
+// 8 4 2 4
+// 5 2 6 7
+// Программа считает сумму элементов в каждой строке и выдаёт номер строки с наименьшей суммой элементов: 1 строка
+
+int[,] FillMatrix(int row, int col, int leftRange, int rightRange)
 {
     int[,] matrix = new int[row, col];
     Random random = new Random();
@@ -30,49 +38,33 @@ void PrintMatrix(int[,] arr)
         System.Console.WriteLine();
     }
 }
-int m = 5, n = 5, item = 1;
-int[,] array = new int[m, n];
-while (item < m * n)
+int SumElements(int[,] array, int i)
 {
-    int InRighti = 0;
-    int InRightRow = 0;
-    for (int i = InRighti; i < n; i++)
-    {
-        array[InRightRow, i] = item;
-        item++;
-    }
-    for (int j = InRightRow + 1; j < m; j++)
-    {
-        array[j, n - 1] = item;
-        item++;
-    }
-    for (int k = n - 1; k > InRighti; k--)
-    {
-        array[m - 1, k] = item;
-        item++;
-    }
-    for (int t = m - 1; t > InRightRow; t--)
-    {
-        array[t, InRightRow] = item;
-        item++;
-    }
-    InRighti++;
-    InRightRow++;
-    m--;
-    n--;
+  int sumLine = array[i,0];
+  for (int j = 1; j < array.GetLength(1); j++)
+  {
+    sumLine += array[i,j];
+  }
+  return sumLine;
 }
 
-// int row = ReadInt("Введите кол-во колонок: ");
-// int col = ReadInt("Введите кол-во столбцов: ");
-// int[,] matrix = FillMatrix(row, col, 0, 1000);
-// PrintMatrix(matrix);
+int row = ReadInt("Введите количество столбцов: ");
+int col = ReadInt("Введите количество колонок: ");
 
-for (int i = 0; i < array.GetLength(0); i++)
+int[,] matrix = FillMatrix(row, col, 0, 10);
+
+PrintMatrix(matrix);
+System.Console.WriteLine();
+
+int minSumLine = 0;
+int sumLine = SumElements(matrix, 0);
+for (int i = 1; i < matrix.GetLength(0); i++)
 {
-    for (int j = 0; j < array.GetLength(1); j++)
-    {
-        System.Console.Write(array[i,j] + "\t");
-    }
-    System.Console.WriteLine();
+  int tempSumLine = SumElements(matrix, i);
+  if (sumLine > tempSumLine)
+  {
+    sumLine = tempSumLine;
+    minSumLine = i;
+  }
 }
-
+Console.WriteLine($"\n{minSumLine+1} строкa с наименьшей суммой элементов. ");
