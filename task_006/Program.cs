@@ -27,52 +27,47 @@ void PrintMatrix(int[,] arr)
         {
             System.Console.Write(arr[i, j] + "\t");
         }
-        System.Console.WriteLine();
+        System.Console.WriteLine("\n");
     }
 }
-int m = 7, n = 8, item = 1;
-int numItem = m * n;
-int[,] array = new int[m, n];
-int InRighti = 0;
-int InRightRow = 0;
-while (item <= numItem)
+void FillSpiralMatrix(int[,] array, int m, int n)
 {
-    for (int i = InRighti; i < n && item <= numItem; i++)
+    int numItem = m * n;
+    int InRighti = 0;
+    int InRightRow = 0;
+    int item = 1;
+    while (item <= numItem)
     {
-        array[InRightRow, i] = item;
-        item++;
+        for (int i = InRighti; i < n && item <= numItem; i++)
+        {
+            array[InRightRow, i] = item;
+            item++;
+        }
+        for (int j = InRightRow + 1; j < m && item <= numItem; j++)
+        {
+            array[j, n - 1] = item;
+            item++;
+        }
+        for (int k = n - 2; k > InRighti && item <= numItem; k--)
+        {
+            array[m - 1, k] = item;
+            item++;
+        }
+        for (int t = m - 1; t > InRightRow && item <= numItem; t--)
+        {
+            array[t, InRightRow] = item;
+            item++;
+        }
+        InRighti++;
+        InRightRow++;
+        m--;
+        n--;
     }
-    for (int j = InRightRow + 1; j < m && item <= numItem; j++)
-    {
-        array[j, n - 1] = item;
-        item++;
-    }
-    for (int k = n - 2; k > InRighti && item <= numItem; k--)
-    {
-        array[m - 1, k] = item;
-        item++;
-    }
-    for (int t = m - 1; t > InRightRow && item <= numItem; t--)
-    {
-        array[t, InRightRow] = item;
-        item++;
-    }
-    InRighti++;
-    InRightRow++;
-    m--;
-    n--;
 }
 
-// int row = ReadInt("Введите кол-во колонок: ");
-// int col = ReadInt("Введите кол-во столбцов: ");
-// int[,] matrix = FillMatrix(row, col, 0, 1000);
-// PrintMatrix(matrix);
 
-for (int i = 0; i < array.GetLength(0); i++)
-{
-    for (int j = 0; j < array.GetLength(1); j++)
-    {
-        System.Console.Write(array[i, j] + "\t");
-    }
-    System.Console.WriteLine();
-}
+int row = ReadInt("Введите кол-во колонок: ");
+int col = ReadInt("Введите кол-во столбцов: ");
+int[,] matrix = new int[row, col];
+FillSpiralMatrix(matrix, row, col);
+PrintMatrix(matrix);
